@@ -2,7 +2,6 @@
 using Blish_HUD.Modules;
 using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
-using Blish_HUD.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -68,8 +67,8 @@ namespace DistanceRings
         private DrawRing _ring4;
         private DrawRing _ring5;
 
-        private Texture2D _texturesmall;
-        private Texture2D _texturelarge;
+        private Texture2D _texturethick;
+        private Texture2D _texturethin;
 
         [ImportingConstructor]
         public DistanceRingsModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters) { }
@@ -131,11 +130,11 @@ namespace DistanceRings
         }
         protected override void Initialize()
         {
-            _texturesmall = ContentsManager.GetTexture("circle60.png");
-            _texturelarge = ContentsManager.GetTexture("circle500.png");
+            _texturethin = ContentsManager.GetTexture("circlethin.png");
+            _texturethick = ContentsManager.GetTexture("circlethick.png");
 
             _ring1 = new DrawRing();
-            _ring1.RingTexture = _texturesmall;
+            _ring1.RingTexture = _texturethin;
             _ring1.Size = new Vector3(10, 10, 0);
             _ring1.RingOpacity = 1f;
             _ring1.RingColor = Color.White;
@@ -144,7 +143,7 @@ namespace DistanceRings
             GameService.Graphics.World.Entities.Add(_ring1);
 
             _ring2 = new DrawRing();
-            _ring2.RingTexture = _texturesmall;
+            _ring2.RingTexture = _texturethin;
             _ring2.Size = new Vector3(0, 0, 0);
             _ring2.RingOpacity = 1f;
             _ring2.RingColor = Color.White;
@@ -153,7 +152,7 @@ namespace DistanceRings
             GameService.Graphics.World.Entities.Add(_ring2);
 
             _ring3 = new DrawRing();
-            _ring3.RingTexture = _texturesmall;
+            _ring3.RingTexture = _texturethin;
             _ring3.Size = new Vector3(0, 0, 0);
             _ring3.RingOpacity = 1f;
             _ring3.RingColor = Color.White;
@@ -162,7 +161,7 @@ namespace DistanceRings
             GameService.Graphics.World.Entities.Add(_ring3);
 
             _ring4 = new DrawRing();
-            _ring4.RingTexture = _texturesmall;
+            _ring4.RingTexture = _texturethin;
             _ring4.Size = new Vector3(0, 0, 0);
             _ring4.RingOpacity = 1f;
             _ring4.RingColor = Color.White;
@@ -171,7 +170,7 @@ namespace DistanceRings
             GameService.Graphics.World.Entities.Add(_ring4);
 
             _ring5 = new DrawRing();
-            _ring5.RingTexture = _texturesmall;
+            _ring5.RingTexture = _texturethin;
             _ring5.Size = new Vector3(0, 0, 0);
             _ring5.RingOpacity = 1f;
             _ring5.RingColor = Color.White;
@@ -199,19 +198,19 @@ namespace DistanceRings
             float diam = 0;
             diam = DistToPx(float.Parse(_settingDistanceRingsRadius1.Value));
             _ring1.Size = new Vector3(diam, diam, 0);
-            _ring1.RingTexture = (float.Parse(_settingDistanceRingsRadius1.Value) <= 70 ? _texturesmall : _texturelarge);
+            _ring1.RingTexture = (float.Parse(_settingDistanceRingsRadius1.Value) <= 70 ? _texturethick : _texturethin);
             diam = DistToPx(float.Parse(_settingDistanceRingsRadius2.Value));
             _ring2.Size = new Vector3(diam, diam, 0);
-            _ring2.RingTexture = (float.Parse(_settingDistanceRingsRadius2.Value) <= 70 ? _texturesmall : _texturelarge);
+            _ring2.RingTexture = (float.Parse(_settingDistanceRingsRadius2.Value) <= 70 ? _texturethick : _texturethin);
             diam = DistToPx(float.Parse(_settingDistanceRingsRadius3.Value));
             _ring3.Size = new Vector3(diam, diam, 0);
-            _ring3.RingTexture = (float.Parse(_settingDistanceRingsRadius3.Value) <= 70 ? _texturesmall : _texturelarge);
+            _ring3.RingTexture = (float.Parse(_settingDistanceRingsRadius3.Value) <= 70 ? _texturethick : _texturethin);
             diam = DistToPx(float.Parse(_settingDistanceRingsRadius4.Value));
             _ring4.Size = new Vector3(diam, diam, 0);
-            _ring4.RingTexture = (float.Parse(_settingDistanceRingsRadius4.Value) <= 70 ? _texturesmall : _texturelarge);
+            _ring4.RingTexture = (float.Parse(_settingDistanceRingsRadius4.Value) <= 70 ? _texturethick : _texturethin);
             diam = DistToPx(float.Parse(_settingDistanceRingsRadius5.Value));
             _ring5.Size = new Vector3(diam, diam, 0);
-            _ring5.RingTexture = (float.Parse(_settingDistanceRingsRadius5.Value) <= 70 ? _texturesmall : _texturelarge);
+            _ring5.RingTexture = (float.Parse(_settingDistanceRingsRadius5.Value) <= 70 ? _texturethick : _texturethin);
         }
         private void UpdateSettings_Color(object sender = null, ValueChangedEventArgs<Colors> e = null)
         {
