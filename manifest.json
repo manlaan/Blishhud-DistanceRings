@@ -1,7 +1,7 @@
 {
-  "name": "DistanceRings",
-  "version": "0.1.0",
-  "namespace": "Distance Rings",
+  "name": "Distance Rings",
+  "version": "1.0.0",
+  "namespace": "DistanceRings",
   "package": "DistanceRings.dll",
   "manifest_version": 1,
 
