@@ -1,55 +1,69 @@
 ﻿using Blish_HUD;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Blish_HUD.Entities.Primitives;
+using System;
 
 namespace DistanceRings
 {
-    class DrawRing : Cuboid
+    public class DrawRing : Blish_HUD.Entities.Primitives.Cuboid
     {
         public Texture2D RingTexture;
-        public Vector3 RingPosition;
         public float RingOpacity;
         public bool RingVisible;
         public Color RingColor;
-
+        private VertexPositionColorTexture[] vertex;
+        
         public DrawRing()
         {
+            _renderEffect.TextureEnabled = true;
+            _renderEffect.VertexColorEnabled = true;
+
+            vertex = new VertexPositionColorTexture[4];
         }
 
-        public override void Update(GameTime gameTime)
+        public void UpdateRings()
         {
-            this.Position = RingPosition;
-            this.Visible = RingVisible;
+            vertex[0].Position = new Vector3(-1, 1, 1) * Size;
+            vertex[0].TextureCoordinate = new Vector2(0, 0);
+            vertex[0].Color = RingColor;
+            vertex[1].Position = new Vector3(1, 1, 1) * Size;
+            vertex[1].TextureCoordinate = new Vector2(1, 0);
+            vertex[1].Color = RingColor;
+            vertex[2].Position = new Vector3(-1, -1, 1) * Size;
+            vertex[2].TextureCoordinate = new Vector2(0, 1);
+            vertex[2].Color = RingColor;
+            vertex[3].Position = new Vector3(1, -1, 1) * Size;
+            vertex[3].TextureCoordinate = new Vector2(1, 1);
+            vertex[3].Color = RingColor; 
+
+            _geometryBuffer = new VertexBuffer(GameService.Graphics.GraphicsDevice, VertexPositionColorTexture.VertexDeclaration, 4, BufferUsage.WriteOnly);
+            _geometryBuffer.SetData(vertex);
+        }
+
+        public override void HandleRebuild(GraphicsDevice graphicsDevice)
+        {
         }
 
         public override void Draw(GraphicsDevice graphicsDevice)
         {
             if (_geometryBuffer == null) return;
 
+            float x = GameService.Gw2Mumble.PlayerCharacter.Position.X;
+            float y = GameService.Gw2Mumble.PlayerCharacter.Position.Y;
+            float z = GameService.Gw2Mumble.PlayerCharacter.Position.Z + VerticalOffset;
+
+            float facing = (float)(Math.Atan2(GameService.Gw2Mumble.PlayerCamera.Forward.X, GameService.Gw2Mumble.PlayerCamera.Forward.Y) * 180 / Math.PI);
+            Matrix world = Matrix.CreateTranslation(x, y, z);
+            world.M11 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
+            world.M12 = (float)(-Math.Sin(MathHelper.ToRadians(facing)));
+            world.M21 = (float)(Math.Sin(MathHelper.ToRadians(facing)));
+            world.M22 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
+
             _renderEffect.View = GameService.Gw2Mumble.PlayerCamera.View;
             _renderEffect.Projection = GameService.Gw2Mumble.PlayerCamera.Projection;
-            _renderEffect.World = Matrix.CreateTranslation(_position);
+            _renderEffect.World = world;
             _renderEffect.Texture = RingTexture;
             _renderEffect.Alpha = RingOpacity;
-            _renderEffect.VertexColorEnabled = true;
-
-            VertexPositionColorTexture[] v = new VertexPositionColorTexture[4];
-            v[0].Position = new Vector3(-1, 1, 1) * Size;
-            v[0].TextureCoordinate = new Vector2(0, 0);
-            v[0].Color = RingColor;
-            v[1].Position = new Vector3(1, 1, 1) * Size;
-            v[1].TextureCoordinate = new Vector2(1, 0);
-            v[1].Color = RingColor;
-            v[2].Position = new Vector3(-1, -1, 1) * Size;
-            v[2].TextureCoordinate = new Vector2(0, 1);
-            v[2].Color = RingColor;
-            v[3].Position = new Vector3(1, -1, 1) * Size;
-            v[3].TextureCoordinate = new Vector2(1, 1);
-            v[2].Color = RingColor;
-
-            _geometryBuffer = new VertexBuffer(GameService.Graphics.GraphicsDevice, VertexPositionColorTexture.VertexDeclaration, 4, BufferUsage.WriteOnly);
-            _geometryBuffer.SetData(v);
 
             graphicsDevice.SetVertexBuffer(_geometryBuffer, 0);
 
@@ -58,6 +72,10 @@ namespace DistanceRings
                 pass.Apply();
             }
 
-            graphicsDevice.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);         }
+            graphicsDevice.DrawPrimitives(
+                PrimitiveType.TriangleStrip,
+                0,
+                2);
         }
+    }
 }

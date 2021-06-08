@@ -100,7 +100,7 @@ namespace DistanceRings
             _settingDistanceRingsColor5 = settings.DefineSetting("DistanceRingsColor5", Colors.White, "5. Color", "Color of distance ring.");
             _settingDistanceRingsOpacity5 = settings.DefineSetting("DistanceRingOpacity5", 100f, "5. Opacity", "Transparency of distance ring.");
 
-            _settingDistanceRingsVerticalOffset = settings.DefineSetting("DistanceRingVerticalOffset", 0f, "Vertical Offset", "How high to offset the distance rings off the ground.");
+            _settingDistanceRingsVerticalOffset = settings.DefineSetting("DistanceRingVerticalOffset", 20f, "Vertical Offset", "How high to offset the distance rings off the ground.");
 
             _settingDistanceRingsEnable1.SettingChanged += UpdateSettings_Enabled;
             _settingDistanceRingsEnable2.SettingChanged += UpdateSettings_Enabled;
@@ -122,6 +122,7 @@ namespace DistanceRings
             _settingDistanceRingsOpacity3.SettingChanged += UpdateSettings_Opacity;
             _settingDistanceRingsOpacity4.SettingChanged += UpdateSettings_Opacity;
             _settingDistanceRingsOpacity5.SettingChanged += UpdateSettings_Opacity;
+            _settingDistanceRingsVerticalOffset.SettingChanged += UpdateSettings_VerticalOffset;
         }
 
         private float DistToPx(float f)
@@ -139,7 +140,6 @@ namespace DistanceRings
             _ring1.RingOpacity = 1f;
             _ring1.RingColor = Color.White;
             _ring1.RingVisible = false;
-            _ring1.Draw(GameService.Graphics.GraphicsDevice);
             GameService.Graphics.World.Entities.Add(_ring1);
 
             _ring2 = new DrawRing();
@@ -148,7 +148,6 @@ namespace DistanceRings
             _ring2.RingOpacity = 1f;
             _ring2.RingColor = Color.White;
             _ring2.RingVisible = false;
-            _ring2.Draw(GameService.Graphics.GraphicsDevice);
             GameService.Graphics.World.Entities.Add(_ring2);
 
             _ring3 = new DrawRing();
@@ -157,7 +156,6 @@ namespace DistanceRings
             _ring3.RingOpacity = 1f;
             _ring3.RingColor = Color.White;
             _ring3.RingVisible = false;
-            _ring3.Draw(GameService.Graphics.GraphicsDevice);
             GameService.Graphics.World.Entities.Add(_ring3);
 
             _ring4 = new DrawRing();
@@ -166,7 +164,6 @@ namespace DistanceRings
             _ring4.RingOpacity = 1f;
             _ring4.RingColor = Color.White;
             _ring4.RingVisible = false;
-            _ring4.Draw(GameService.Graphics.GraphicsDevice);
             GameService.Graphics.World.Entities.Add(_ring4);
 
             _ring5 = new DrawRing();
@@ -175,24 +172,33 @@ namespace DistanceRings
             _ring5.RingOpacity = 1f;
             _ring5.RingColor = Color.White;
             _ring5.RingVisible = false;
-            _ring5.Draw(GameService.Graphics.GraphicsDevice);
             GameService.Graphics.World.Entities.Add(_ring5);
 
             UpdateSettings_Enabled();
             UpdateSettings_Radius();
             UpdateSettings_Color();
             UpdateSettings_Opacity();
-
+            UpdateSettings_VerticalOffset();
         }
 
         private void UpdateSettings_Enabled(object sender = null, ValueChangedEventArgs<bool> e = null)
         {
-            _ring1.RingVisible = _settingDistanceRingsEnable1.Value;
-            _ring2.RingVisible = _settingDistanceRingsEnable2.Value;
-            _ring3.RingVisible = _settingDistanceRingsEnable3.Value;
-            _ring4.RingVisible = _settingDistanceRingsEnable4.Value;
-            _ring5.RingVisible = _settingDistanceRingsEnable5.Value;
+            _ring1.Visible = _settingDistanceRingsEnable1.Value;
+            _ring2.Visible = _settingDistanceRingsEnable2.Value;
+            _ring3.Visible = _settingDistanceRingsEnable3.Value;
+            _ring4.Visible = _settingDistanceRingsEnable4.Value;
+            _ring5.Visible = _settingDistanceRingsEnable5.Value;
         }
+
+        private void UpdateSettings_VerticalOffset(object sender = null, ValueChangedEventArgs<float> e = null)
+        {
+            _ring1.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
+            _ring2.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
+            _ring3.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
+            _ring4.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
+            _ring5.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
+        }
+
         private void UpdateSettings_Radius(object sender = null, ValueChangedEventArgs<string> e = null)
         {
             float diam = 0;
@@ -211,6 +217,12 @@ namespace DistanceRings
             diam = DistToPx(float.Parse(_settingDistanceRingsRadius5.Value));
             _ring5.Size = new Vector3(diam, diam, 0);
             _ring5.RingTexture = (float.Parse(_settingDistanceRingsRadius5.Value) <= 70 ? _texturethick : _texturethin);
+
+            _ring1.UpdateRings();
+            _ring2.UpdateRings();
+            _ring3.UpdateRings();
+            _ring4.UpdateRings();
+            _ring5.UpdateRings();
         }
         private void UpdateSettings_Color(object sender = null, ValueChangedEventArgs<Colors> e = null)
         {
@@ -219,6 +231,12 @@ namespace DistanceRings
             _ring3.RingColor = getColor(_settingDistanceRingsColor3.Value);
             _ring4.RingColor = getColor(_settingDistanceRingsColor4.Value);
             _ring5.RingColor = getColor(_settingDistanceRingsColor5.Value);
+
+            _ring1.UpdateRings();
+            _ring2.UpdateRings();
+            _ring3.UpdateRings();
+            _ring4.UpdateRings();
+            _ring5.UpdateRings();
         }
         private void UpdateSettings_Opacity(object sender = null, ValueChangedEventArgs<float> e = null)
         {
@@ -231,28 +249,15 @@ namespace DistanceRings
 
         protected override async Task LoadAsync()
         {
-            //return Task.CompletedTask;
         }
 
         protected override void OnModuleLoaded(EventArgs e)
         {
-
-            // Base handler must be called
             base.OnModuleLoaded(e);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (_settingDistanceRingsEnable1.Value)
-                _ring1.Position = new Vector3(GameService.Gw2Mumble.PlayerCharacter.Position.X, GameService.Gw2Mumble.PlayerCharacter.Position.Y, (GameService.Gw2Mumble.PlayerCharacter.Position.Z + (_settingDistanceRingsVerticalOffset.Value / 20)));
-            if (_settingDistanceRingsEnable2.Value)
-                _ring2.Position = new Vector3(GameService.Gw2Mumble.PlayerCharacter.Position.X, GameService.Gw2Mumble.PlayerCharacter.Position.Y, (GameService.Gw2Mumble.PlayerCharacter.Position.Z + (_settingDistanceRingsVerticalOffset.Value / 20)));
-            if (_settingDistanceRingsEnable3.Value)
-                _ring3.Position = new Vector3(GameService.Gw2Mumble.PlayerCharacter.Position.X, GameService.Gw2Mumble.PlayerCharacter.Position.Y, (GameService.Gw2Mumble.PlayerCharacter.Position.Z + (_settingDistanceRingsVerticalOffset.Value / 20)));
-            if (_settingDistanceRingsEnable4.Value)
-                _ring4.Position = new Vector3(GameService.Gw2Mumble.PlayerCharacter.Position.X, GameService.Gw2Mumble.PlayerCharacter.Position.Y, (GameService.Gw2Mumble.PlayerCharacter.Position.Z + (_settingDistanceRingsVerticalOffset.Value / 20)));
-            if (_settingDistanceRingsEnable5.Value)
-                _ring5.Position = new Vector3(GameService.Gw2Mumble.PlayerCharacter.Position.X, GameService.Gw2Mumble.PlayerCharacter.Position.Y, (GameService.Gw2Mumble.PlayerCharacter.Position.Z + (_settingDistanceRingsVerticalOffset.Value / 20)));
         }
 
         /// <inheritdoc />
@@ -278,6 +283,7 @@ namespace DistanceRings
             _settingDistanceRingsOpacity3.SettingChanged -= UpdateSettings_Opacity;
             _settingDistanceRingsOpacity4.SettingChanged -= UpdateSettings_Opacity;
             _settingDistanceRingsOpacity5.SettingChanged -= UpdateSettings_Opacity;
+            _settingDistanceRingsVerticalOffset.SettingChanged -= UpdateSettings_VerticalOffset;
 
             GameService.Graphics.World.Entities.Remove(_ring1);
             GameService.Graphics.World.Entities.Remove(_ring2);
