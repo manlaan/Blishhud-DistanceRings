@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1D48F763-3D5B-4B65-B407-9D1D6066498B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>manla.DistanceRings</RootNamespace>
+    <RootNamespace>DistanceRings</RootNamespace>
     <AssemblyName>DistanceRings</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -73,9 +73,8 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Blish HUD, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\BlishHUD.0.5.2-alpha.648\lib\net472\Blish HUD.exe</HintPath>
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Blish HUD">
+      <HintPath>..\Blish-HUD\Blish HUD\bin\x64\Release\net472\Blish HUD.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Gw2Sharp, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">

@@ -46,36 +46,39 @@ namespace DistanceRings
 
         public override void Draw(GraphicsDevice graphicsDevice)
         {
-            if (_geometryBuffer == null) return;
-
-            float x = GameService.Gw2Mumble.PlayerCharacter.Position.X;
-            float y = GameService.Gw2Mumble.PlayerCharacter.Position.Y;
-            float z = GameService.Gw2Mumble.PlayerCharacter.Position.Z + VerticalOffset;
-
-            float facing = (float)(Math.Atan2(GameService.Gw2Mumble.PlayerCamera.Forward.X, GameService.Gw2Mumble.PlayerCamera.Forward.Y) * 180 / Math.PI);
-            Matrix world = Matrix.CreateTranslation(x, y, z);
-            world.M11 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
-            world.M12 = (float)(-Math.Sin(MathHelper.ToRadians(facing)));
-            world.M21 = (float)(Math.Sin(MathHelper.ToRadians(facing)));
-            world.M22 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
-
-            _renderEffect.View = GameService.Gw2Mumble.PlayerCamera.View;
-            _renderEffect.Projection = GameService.Gw2Mumble.PlayerCamera.Projection;
-            _renderEffect.World = world;
-            _renderEffect.Texture = RingTexture;
-            _renderEffect.Alpha = RingOpacity;
-
-            graphicsDevice.SetVertexBuffer(_geometryBuffer, 0);
-
-            foreach (var pass in _renderEffect.CurrentTechnique.Passes)
+            if (this.RingVisible)
             {
-                pass.Apply();
-            }
+                if (_geometryBuffer == null) return;
 
-            graphicsDevice.DrawPrimitives(
-                PrimitiveType.TriangleStrip,
-                0,
-                2);
+                float x = GameService.Gw2Mumble.PlayerCharacter.Position.X;
+                float y = GameService.Gw2Mumble.PlayerCharacter.Position.Y;
+                float z = GameService.Gw2Mumble.PlayerCharacter.Position.Z + VerticalOffset;
+
+                float facing = (float)(Math.Atan2(GameService.Gw2Mumble.PlayerCamera.Forward.X, GameService.Gw2Mumble.PlayerCamera.Forward.Y) * 180 / Math.PI);
+                Matrix world = Matrix.CreateTranslation(x, y, z);
+                world.M11 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
+                world.M12 = (float)(-Math.Sin(MathHelper.ToRadians(facing)));
+                world.M21 = (float)(Math.Sin(MathHelper.ToRadians(facing)));
+                world.M22 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
+
+                _renderEffect.View = GameService.Gw2Mumble.PlayerCamera.View;
+                _renderEffect.Projection = GameService.Gw2Mumble.PlayerCamera.Projection;
+                _renderEffect.World = world;
+                _renderEffect.Texture = RingTexture;
+                _renderEffect.Alpha = RingOpacity;
+
+                graphicsDevice.SetVertexBuffer(_geometryBuffer, 0);
+
+                foreach (var pass in _renderEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                }
+
+                graphicsDevice.DrawPrimitives(
+                    PrimitiveType.TriangleStrip,
+                    0,
+                    2);
+            }
         }
     }
 }

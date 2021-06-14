@@ -1,18 +1,19 @@
 {
     "name": "Distance Rings",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "namespace": "DistanceRings",
     "package": "DistanceRings.dll",
     "manifest_version": 1,
 
     "description": "Display Distance Rings",
     "dependencies": {
-        "bh.blishhud": ">=0.5.2"
+        "bh.blishhud": ">=0.7.1"
     },
     "url": "https://github.com/manlaan/Blishhud-DistanceRings",
     "contributors": [
         {
-            "name": "Manlaan"
+            "name": "Manlaan",
+            "username": "manlaan.8921"
         }
     ]
 }

@@ -78,29 +78,36 @@ namespace DistanceRings
             _settingDistanceRingsEnable1 = settings.DefineSetting("DistanceRingsEnable1", true, "1. Enabled", "");
             _settingDistanceRingsRadius1 = settings.DefineSetting("DistanceRingsRadius1", "60", "1. Radius", "Radius of the distance ring.");
             _settingDistanceRingsColor1 = settings.DefineSetting("DistanceRingsColor1", Colors.White, "1. Color", "Color of distance ring.");
-            _settingDistanceRingsOpacity1 = settings.DefineSetting("DistanceRingOpacity1", 100f, "1. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity1 = settings.DefineSetting("DistanceRingOpacity1", 1f, "1. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity1.SetRange(0f, 1f);
 
             _settingDistanceRingsEnable2 = settings.DefineSetting("DistanceRingsEnable2", false, "2. Enabled", "");
             _settingDistanceRingsRadius2 = settings.DefineSetting("DistanceRingsRadius2", "90", "2. Radius", "Radius of the distance ring.");
             _settingDistanceRingsColor2 = settings.DefineSetting("DistanceRingsColor2", Colors.White, "2. Color", "Color of distance ring.");
-            _settingDistanceRingsOpacity2 = settings.DefineSetting("DistanceRingOpacity2", 100f, "2. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity2 = settings.DefineSetting("DistanceRingOpacity2", 1f, "2. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity2.SetRange(0f, 1f);
 
             _settingDistanceRingsEnable3 = settings.DefineSetting("DistanceRingsEnable3", false, "3. Enabled", "");
             _settingDistanceRingsRadius3 = settings.DefineSetting("DistanceRingsRadius3", "120", "3. Radius", "Radius of the distance ring.");
             _settingDistanceRingsColor3 = settings.DefineSetting("DistanceRingsColor3", Colors.White, "3. Color", "Color of distance ring.");
-            _settingDistanceRingsOpacity3 = settings.DefineSetting("DistanceRingOpacity3", 100f, "3. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity3 = settings.DefineSetting("DistanceRingOpacity3", 1f, "3. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity3.SetRange(0f, 1f);
 
             _settingDistanceRingsEnable4 = settings.DefineSetting("DistanceRingsEnable4", false, "4. Enabled", "");
             _settingDistanceRingsRadius4 = settings.DefineSetting("DistanceRingsRadius4", "180", "4. Radius", "Radius of the distance ring.");
             _settingDistanceRingsColor4 = settings.DefineSetting("DistanceRingsColor4", Colors.White, "4. Color", "Color of distance ring.");
-            _settingDistanceRingsOpacity4 = settings.DefineSetting("DistanceRingOpacity4", 100f, "4. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity4 = settings.DefineSetting("DistanceRingOpacity4", 1f, "4. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity4.SetRange(0f, 1f);
 
             _settingDistanceRingsEnable5 = settings.DefineSetting("DistanceRingsEnable5", false, "5. Enabled", "");
             _settingDistanceRingsRadius5 = settings.DefineSetting("DistanceRingsRadius5", "1200", "5. Radius", "Radius of the distance ring.");
             _settingDistanceRingsColor5 = settings.DefineSetting("DistanceRingsColor5", Colors.White, "5. Color", "Color of distance ring.");
-            _settingDistanceRingsOpacity5 = settings.DefineSetting("DistanceRingOpacity5", 100f, "5. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity5 = settings.DefineSetting("DistanceRingOpacity5", 1f, "5. Opacity", "Transparency of distance ring.");
+            _settingDistanceRingsOpacity5.SetRange(0f, 1f);
 
-            _settingDistanceRingsVerticalOffset = settings.DefineSetting("DistanceRingVerticalOffset", 20f, "Vertical Offset", "How high to offset the distance rings off the ground.");
+            _settingDistanceRingsVerticalOffset = settings.DefineSetting("DistanceRingVerticalOffset", 1f, "Vertical Offset", "How high to offset the distance rings off the ground.");
+            //_settingDistanceRingsVerticalOffset.SetRange(-1f, 5f);  //Would prefer to have begining value below 0, but causes mouse drag to be off in settings panel
+            _settingDistanceRingsVerticalOffset.SetRange(0f, 6f);  
 
             _settingDistanceRingsEnable1.SettingChanged += UpdateSettings_Enabled;
             _settingDistanceRingsEnable2.SettingChanged += UpdateSettings_Enabled;
@@ -136,11 +143,11 @@ namespace DistanceRings
 
             _ring1 = new DrawRing();
             _ring1.RingTexture = _texturethin;
-            _ring1.Size = new Vector3(10, 10, 0);
+            _ring1.Size = new Vector3(0, 0, 0);
             _ring1.RingOpacity = 1f;
             _ring1.RingColor = Color.White;
             _ring1.RingVisible = false;
-            GameService.Graphics.World.Entities.Add(_ring1);
+            GameService.Graphics.World.AddEntity(_ring1);
 
             _ring2 = new DrawRing();
             _ring2.RingTexture = _texturethin;
@@ -148,7 +155,7 @@ namespace DistanceRings
             _ring2.RingOpacity = 1f;
             _ring2.RingColor = Color.White;
             _ring2.RingVisible = false;
-            GameService.Graphics.World.Entities.Add(_ring2);
+            GameService.Graphics.World.AddEntity(_ring2);
 
             _ring3 = new DrawRing();
             _ring3.RingTexture = _texturethin;
@@ -156,7 +163,7 @@ namespace DistanceRings
             _ring3.RingOpacity = 1f;
             _ring3.RingColor = Color.White;
             _ring3.RingVisible = false;
-            GameService.Graphics.World.Entities.Add(_ring3);
+            GameService.Graphics.World.AddEntity(_ring3);
 
             _ring4 = new DrawRing();
             _ring4.RingTexture = _texturethin;
@@ -164,7 +171,7 @@ namespace DistanceRings
             _ring4.RingOpacity = 1f;
             _ring4.RingColor = Color.White;
             _ring4.RingVisible = false;
-            GameService.Graphics.World.Entities.Add(_ring4);
+            GameService.Graphics.World.AddEntity(_ring4);
 
             _ring5 = new DrawRing();
             _ring5.RingTexture = _texturethin;
@@ -172,7 +179,7 @@ namespace DistanceRings
             _ring5.RingOpacity = 1f;
             _ring5.RingColor = Color.White;
             _ring5.RingVisible = false;
-            GameService.Graphics.World.Entities.Add(_ring5);
+            GameService.Graphics.World.AddEntity(_ring5);
 
             UpdateSettings_Enabled();
             UpdateSettings_Radius();
@@ -183,20 +190,21 @@ namespace DistanceRings
 
         private void UpdateSettings_Enabled(object sender = null, ValueChangedEventArgs<bool> e = null)
         {
-            _ring1.Visible = _settingDistanceRingsEnable1.Value;
-            _ring2.Visible = _settingDistanceRingsEnable2.Value;
-            _ring3.Visible = _settingDistanceRingsEnable3.Value;
-            _ring4.Visible = _settingDistanceRingsEnable4.Value;
-            _ring5.Visible = _settingDistanceRingsEnable5.Value;
+            _ring1.RingVisible = _settingDistanceRingsEnable1.Value;
+            _ring2.RingVisible = _settingDistanceRingsEnable2.Value;
+            _ring3.RingVisible = _settingDistanceRingsEnable3.Value;
+            _ring4.RingVisible = _settingDistanceRingsEnable4.Value;
+            _ring5.RingVisible = _settingDistanceRingsEnable5.Value;
         }
 
         private void UpdateSettings_VerticalOffset(object sender = null, ValueChangedEventArgs<float> e = null)
         {
-            _ring1.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
-            _ring2.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
-            _ring3.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
-            _ring4.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
-            _ring5.VerticalOffset = (_settingDistanceRingsVerticalOffset.Value - 20) / 20;
+            //allow ring to go below character, if desired.
+            _ring1.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
+            _ring2.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
+            _ring3.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
+            _ring4.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
+            _ring5.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
         }
 
         private void UpdateSettings_Radius(object sender = null, ValueChangedEventArgs<string> e = null)
@@ -240,11 +248,11 @@ namespace DistanceRings
         }
         private void UpdateSettings_Opacity(object sender = null, ValueChangedEventArgs<float> e = null)
         {
-            _ring1.RingOpacity = _settingDistanceRingsOpacity1.Value / 100;
-            _ring2.RingOpacity = _settingDistanceRingsOpacity2.Value / 100;
-            _ring3.RingOpacity = _settingDistanceRingsOpacity3.Value / 100;
-            _ring4.RingOpacity = _settingDistanceRingsOpacity4.Value / 100;
-            _ring5.RingOpacity = _settingDistanceRingsOpacity5.Value / 100;
+            _ring1.RingOpacity = _settingDistanceRingsOpacity1.Value;
+            _ring2.RingOpacity = _settingDistanceRingsOpacity2.Value;
+            _ring3.RingOpacity = _settingDistanceRingsOpacity3.Value;
+            _ring4.RingOpacity = _settingDistanceRingsOpacity4.Value;
+            _ring5.RingOpacity = _settingDistanceRingsOpacity5.Value;
         }
 
         protected override async Task LoadAsync()
@@ -285,11 +293,11 @@ namespace DistanceRings
             _settingDistanceRingsOpacity5.SettingChanged -= UpdateSettings_Opacity;
             _settingDistanceRingsVerticalOffset.SettingChanged -= UpdateSettings_VerticalOffset;
 
-            GameService.Graphics.World.Entities.Remove(_ring1);
-            GameService.Graphics.World.Entities.Remove(_ring2);
-            GameService.Graphics.World.Entities.Remove(_ring3);
-            GameService.Graphics.World.Entities.Remove(_ring4);
-            GameService.Graphics.World.Entities.Remove(_ring5);
+            GameService.Graphics.World.RemoveEntity(_ring1);
+            GameService.Graphics.World.RemoveEntity(_ring2);
+            GameService.Graphics.World.RemoveEntity(_ring3);
+            GameService.Graphics.World.RemoveEntity(_ring4);
+            GameService.Graphics.World.RemoveEntity(_ring5);
         }
 
         private Color getColor(Colors color)
