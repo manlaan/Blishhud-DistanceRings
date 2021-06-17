@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace DistanceRings
+namespace DistanceRings.Control
 {
     public class DrawRing : Blish_HUD.Entities.Primitives.Cuboid
     {
@@ -15,6 +15,11 @@ namespace DistanceRings
         
         public DrawRing()
         {
+            this.Size = new Vector3(0, 0, 0);
+            this.RingOpacity = 1f;
+            this.RingColor = Color.White;
+            this.RingVisible = false;
+
             _renderEffect.TextureEnabled = true;
             _renderEffect.VertexColorEnabled = true;
 
@@ -70,9 +75,7 @@ namespace DistanceRings
                 graphicsDevice.SetVertexBuffer(_geometryBuffer, 0);
 
                 foreach (var pass in _renderEffect.CurrentTechnique.Passes)
-                {
                     pass.Apply();
-                }
 
                 graphicsDevice.DrawPrimitives(
                     PrimitiveType.TriangleStrip,

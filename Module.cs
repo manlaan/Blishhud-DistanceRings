@@ -61,11 +61,11 @@ namespace DistanceRings
 
         private SettingEntry<float> _settingDistanceRingsVerticalOffset;
 
-        private DrawRing _ring1;
-        private DrawRing _ring2;
-        private DrawRing _ring3;
-        private DrawRing _ring4;
-        private DrawRing _ring5;
+        private Control.DrawRing _ring1;
+        private Control.DrawRing _ring2;
+        private Control.DrawRing _ring3;
+        private Control.DrawRing _ring4;
+        private Control.DrawRing _ring5;
 
         private Texture2D _texturethick;
         private Texture2D _texturethin;
@@ -141,44 +141,24 @@ namespace DistanceRings
             _texturethin = ContentsManager.GetTexture("circlethin.png");
             _texturethick = ContentsManager.GetTexture("circlethick.png");
 
-            _ring1 = new DrawRing();
+            _ring1 = new Control.DrawRing();
             _ring1.RingTexture = _texturethin;
-            _ring1.Size = new Vector3(0, 0, 0);
-            _ring1.RingOpacity = 1f;
-            _ring1.RingColor = Color.White;
-            _ring1.RingVisible = false;
             GameService.Graphics.World.AddEntity(_ring1);
 
-            _ring2 = new DrawRing();
+            _ring2 = new Control.DrawRing();
             _ring2.RingTexture = _texturethin;
-            _ring2.Size = new Vector3(0, 0, 0);
-            _ring2.RingOpacity = 1f;
-            _ring2.RingColor = Color.White;
-            _ring2.RingVisible = false;
             GameService.Graphics.World.AddEntity(_ring2);
 
-            _ring3 = new DrawRing();
+            _ring3 = new Control.DrawRing();
             _ring3.RingTexture = _texturethin;
-            _ring3.Size = new Vector3(0, 0, 0);
-            _ring3.RingOpacity = 1f;
-            _ring3.RingColor = Color.White;
-            _ring3.RingVisible = false;
             GameService.Graphics.World.AddEntity(_ring3);
 
-            _ring4 = new DrawRing();
+            _ring4 = new Control.DrawRing();
             _ring4.RingTexture = _texturethin;
-            _ring4.Size = new Vector3(0, 0, 0);
-            _ring4.RingOpacity = 1f;
-            _ring4.RingColor = Color.White;
-            _ring4.RingVisible = false;
             GameService.Graphics.World.AddEntity(_ring4);
 
-            _ring5 = new DrawRing();
+            _ring5 = new Control.DrawRing();
             _ring5.RingTexture = _texturethin;
-            _ring5.Size = new Vector3(0, 0, 0);
-            _ring5.RingOpacity = 1f;
-            _ring5.RingColor = Color.White;
-            _ring5.RingVisible = false;
             GameService.Graphics.World.AddEntity(_ring5);
 
             UpdateSettings_Enabled();
@@ -199,7 +179,7 @@ namespace DistanceRings
 
         private void UpdateSettings_VerticalOffset(object sender = null, ValueChangedEventArgs<float> e = null)
         {
-            //allow ring to go below character, if desired.
+            //allow ring to go below character.
             _ring1.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
             _ring2.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
             _ring3.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;

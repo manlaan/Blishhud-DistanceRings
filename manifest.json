@@ -5,7 +5,7 @@
     "package": "DistanceRings.dll",
     "manifest_version": 1,
 
-    "description": "Display Distance Rings",
+    "description": "Display Distance Rings to mark skill ranges and player location",
     "dependencies": {
         "bh.blishhud": ">=0.7.1"
     },
