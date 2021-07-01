@@ -12,7 +12,7 @@ namespace DistanceRings.Control
         public bool RingVisible;
         public Color RingColor;
         private VertexPositionColorTexture[] vertex;
-        
+
         public DrawRing()
         {
             this.Size = new Vector3(0, 0, 0);
@@ -39,7 +39,7 @@ namespace DistanceRings.Control
             vertex[2].Color = RingColor;
             vertex[3].Position = new Vector3(1, -1, 1) * Size;
             vertex[3].TextureCoordinate = new Vector2(1, 1);
-            vertex[3].Color = RingColor; 
+            vertex[3].Color = RingColor;
 
             _geometryBuffer = new VertexBuffer(GameService.Graphics.GraphicsDevice, VertexPositionColorTexture.VertexDeclaration, 4, BufferUsage.WriteOnly);
             _geometryBuffer.SetData(vertex);
