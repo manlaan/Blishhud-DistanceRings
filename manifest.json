@@ -1,13 +1,13 @@
 {
     "name": "Distance Rings",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "namespace": "DistanceRings",
     "package": "DistanceRings.dll",
     "manifest_version": 1,
 
     "description": "Display Distance Rings to mark skill ranges and player location",
     "dependencies": {
-        "bh.blishhud": ">=0.7.1"
+        "bh.blishhud": ">=0.8.0"
     },
     "url": "https://github.com/manlaan/Blishhud-DistanceRings",
     "contributors": [
