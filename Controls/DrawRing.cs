@@ -1,11 +1,12 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace DistanceRings.Control
 {
-    public class DrawRing : Blish_HUD.Entities.Primitives.Cuboid
+    public class DrawRing : IEntity
     {
         public Texture2D RingTexture;
         public float RingOpacity;
@@ -13,9 +14,21 @@ namespace DistanceRings.Control
         public Color RingColor;
         private VertexPositionColorTexture[] vertex;
 
+        private VertexBuffer _geometryBuffer;
+
+        public Vector3 Size { get; set; }
+
+        public float VerticalOffset { get; set; }
+
+        public float DrawOrder => 0;
+
+        private static BasicEffect _renderEffect;
+
         public DrawRing()
         {
-            this.Size = new Vector3(0, 0, 0);
+            _renderEffect = _renderEffect ?? new BasicEffect(GameService.Graphics.GraphicsDevice);
+
+            this.Size = Vector3.Zero;
             this.RingOpacity = 1f;
             this.RingColor = Color.White;
             this.RingVisible = false;
@@ -45,30 +58,26 @@ namespace DistanceRings.Control
             _geometryBuffer.SetData(vertex);
         }
 
-        public override void HandleRebuild(GraphicsDevice graphicsDevice)
-        {
-        }
 
-        public override void Draw(GraphicsDevice graphicsDevice)
+
+        public void Render(GraphicsDevice graphicsDevice, IWorld world, ICamera camera)
         {
-            if (this.RingVisible)
+            if (this.RingVisible && _geometryBuffer != null)
             {
-                if (_geometryBuffer == null) return;
-
                 float x = GameService.Gw2Mumble.PlayerCharacter.Position.X;
                 float y = GameService.Gw2Mumble.PlayerCharacter.Position.Y;
                 float z = GameService.Gw2Mumble.PlayerCharacter.Position.Z + VerticalOffset;
 
                 float facing = (float)(Math.Atan2(GameService.Gw2Mumble.PlayerCamera.Forward.X, GameService.Gw2Mumble.PlayerCamera.Forward.Y) * 180 / Math.PI);
-                Matrix world = Matrix.CreateTranslation(x, y, z);
-                world.M11 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
-                world.M12 = (float)(-Math.Sin(MathHelper.ToRadians(facing)));
-                world.M21 = (float)(Math.Sin(MathHelper.ToRadians(facing)));
-                world.M22 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
-
+                Matrix worldMatrix = Matrix.CreateTranslation(x, y, z);
+                worldMatrix.M11 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
+                worldMatrix.M12 = (float)(-Math.Sin(MathHelper.ToRadians(facing)));
+                worldMatrix.M21 = (float)(Math.Sin(MathHelper.ToRadians(facing)));
+                worldMatrix.M22 = (float)(Math.Cos(MathHelper.ToRadians(facing)));
+                
                 _renderEffect.View = GameService.Gw2Mumble.PlayerCamera.View;
                 _renderEffect.Projection = GameService.Gw2Mumble.PlayerCamera.Projection;
-                _renderEffect.World = world;
+                _renderEffect.World = worldMatrix;
                 _renderEffect.Texture = RingTexture;
                 _renderEffect.Alpha = RingOpacity;
 
@@ -83,5 +92,7 @@ namespace DistanceRings.Control
                     2);
             }
         }
+
+        public void Update(GameTime gameTime) { /* NOOP */ }
     }
 }
