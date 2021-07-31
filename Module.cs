@@ -8,7 +8,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 
-namespace DistanceRings
+namespace Manlaan.DistanceRings
 {
     [Export(typeof(Blish_HUD.Modules.Module))]
     public class DistanceRingsModule : Blish_HUD.Modules.Module

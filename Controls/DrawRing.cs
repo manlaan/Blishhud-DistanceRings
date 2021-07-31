@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace DistanceRings.Control
+namespace Manlaan.DistanceRings.Control
 {
     public class DrawRing : IEntity
     {
