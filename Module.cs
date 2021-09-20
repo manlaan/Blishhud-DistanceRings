@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Graphics.UI;
 using Blish_HUD.Modules;
 using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
@@ -7,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Manlaan.DistanceRings.Models;
 
 namespace Manlaan.DistanceRings
 {
@@ -35,31 +38,31 @@ namespace Manlaan.DistanceRings
             Yellow,
         }
 
-        private SettingEntry<bool> _settingDistanceRingsEnable1;
-        private SettingEntry<bool> _settingDistanceRingsEnable2;
-        private SettingEntry<bool> _settingDistanceRingsEnable3;
-        private SettingEntry<bool> _settingDistanceRingsEnable4;
-        private SettingEntry<bool> _settingDistanceRingsEnable5;
+        public static SettingEntry<bool> _settingDistanceRingsEnable1;
+        public static SettingEntry<bool> _settingDistanceRingsEnable2;
+        public static SettingEntry<bool> _settingDistanceRingsEnable3;
+        public static SettingEntry<bool> _settingDistanceRingsEnable4;
+        public static SettingEntry<bool> _settingDistanceRingsEnable5;
 
-        private SettingEntry<string> _settingDistanceRingsRadius1;
-        private SettingEntry<string> _settingDistanceRingsRadius2;
-        private SettingEntry<string> _settingDistanceRingsRadius3;
-        private SettingEntry<string> _settingDistanceRingsRadius4;
-        private SettingEntry<string> _settingDistanceRingsRadius5;
+        public static SettingEntry<string> _settingDistanceRingsRadius1;
+        public static SettingEntry<string> _settingDistanceRingsRadius2;
+        public static SettingEntry<string> _settingDistanceRingsRadius3;
+        public static SettingEntry<string> _settingDistanceRingsRadius4;
+        public static SettingEntry<string> _settingDistanceRingsRadius5;
 
-        private SettingEntry<Colors> _settingDistanceRingsColor1;
-        private SettingEntry<Colors> _settingDistanceRingsColor2;
-        private SettingEntry<Colors> _settingDistanceRingsColor3;
-        private SettingEntry<Colors> _settingDistanceRingsColor4;
-        private SettingEntry<Colors> _settingDistanceRingsColor5;
+        public static SettingEntry<string> _settingDistanceRingsColor1;
+        public static SettingEntry<string> _settingDistanceRingsColor2;
+        public static SettingEntry<string> _settingDistanceRingsColor3;
+        public static SettingEntry<string> _settingDistanceRingsColor4;
+        public static SettingEntry<string> _settingDistanceRingsColor5;
 
-        private SettingEntry<float> _settingDistanceRingsOpacity1;
-        private SettingEntry<float> _settingDistanceRingsOpacity2;
-        private SettingEntry<float> _settingDistanceRingsOpacity3;
-        private SettingEntry<float> _settingDistanceRingsOpacity4;
-        private SettingEntry<float> _settingDistanceRingsOpacity5;
+        public static SettingEntry<float> _settingDistanceRingsOpacity1;
+        public static SettingEntry<float> _settingDistanceRingsOpacity2;
+        public static SettingEntry<float> _settingDistanceRingsOpacity3;
+        public static SettingEntry<float> _settingDistanceRingsOpacity4;
+        public static SettingEntry<float> _settingDistanceRingsOpacity5;
 
-        private SettingEntry<float> _settingDistanceRingsVerticalOffset;
+        public static SettingEntry<float> _settingDistanceRingsVerticalOffset;
 
         private Control.DrawRing _ring1;
         private Control.DrawRing _ring2;
@@ -69,6 +72,8 @@ namespace Manlaan.DistanceRings
 
         private Texture2D _texturethick;
         private Texture2D _texturethin;
+        public static List<Gw2Sharp.WebApi.V2.Models.Color> _colors = new List<Gw2Sharp.WebApi.V2.Models.Color>();
+
 
         [ImportingConstructor]
         public DistanceRingsModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters) { }
@@ -77,37 +82,37 @@ namespace Manlaan.DistanceRings
         {
             _settingDistanceRingsEnable1 = settings.DefineSetting("DistanceRingsEnable1", true, "1. Enabled", "");
             _settingDistanceRingsRadius1 = settings.DefineSetting("DistanceRingsRadius1", "60", "1. Radius", "Radius of the distance ring.");
-            _settingDistanceRingsColor1 = settings.DefineSetting("DistanceRingsColor1", Colors.White, "1. Color", "Color of distance ring.");
+            _settingDistanceRingsColor1 = settings.DefineSetting("DistanceRingsColor1a", "White0", "1. Color", "Color of distance ring.");
             _settingDistanceRingsOpacity1 = settings.DefineSetting("DistanceRingOpacity1", 1f, "1. Opacity", "Transparency of distance ring.");
             _settingDistanceRingsOpacity1.SetRange(0f, 1f);
 
             _settingDistanceRingsEnable2 = settings.DefineSetting("DistanceRingsEnable2", false, "2. Enabled", "");
             _settingDistanceRingsRadius2 = settings.DefineSetting("DistanceRingsRadius2", "90", "2. Radius", "Radius of the distance ring.");
-            _settingDistanceRingsColor2 = settings.DefineSetting("DistanceRingsColor2", Colors.White, "2. Color", "Color of distance ring.");
+            _settingDistanceRingsColor2 = settings.DefineSetting("DistanceRingsColor2a", "White0", "2. Color", "Color of distance ring.");
             _settingDistanceRingsOpacity2 = settings.DefineSetting("DistanceRingOpacity2", 1f, "2. Opacity", "Transparency of distance ring.");
             _settingDistanceRingsOpacity2.SetRange(0f, 1f);
 
             _settingDistanceRingsEnable3 = settings.DefineSetting("DistanceRingsEnable3", false, "3. Enabled", "");
             _settingDistanceRingsRadius3 = settings.DefineSetting("DistanceRingsRadius3", "120", "3. Radius", "Radius of the distance ring.");
-            _settingDistanceRingsColor3 = settings.DefineSetting("DistanceRingsColor3", Colors.White, "3. Color", "Color of distance ring.");
+            _settingDistanceRingsColor3 = settings.DefineSetting("DistanceRingsColor3a", "White0", "3. Color", "Color of distance ring.");
             _settingDistanceRingsOpacity3 = settings.DefineSetting("DistanceRingOpacity3", 1f, "3. Opacity", "Transparency of distance ring.");
             _settingDistanceRingsOpacity3.SetRange(0f, 1f);
 
             _settingDistanceRingsEnable4 = settings.DefineSetting("DistanceRingsEnable4", false, "4. Enabled", "");
             _settingDistanceRingsRadius4 = settings.DefineSetting("DistanceRingsRadius4", "180", "4. Radius", "Radius of the distance ring.");
-            _settingDistanceRingsColor4 = settings.DefineSetting("DistanceRingsColor4", Colors.White, "4. Color", "Color of distance ring.");
+            _settingDistanceRingsColor4 = settings.DefineSetting("DistanceRingsColor4a", "White0", "4. Color", "Color of distance ring.");
             _settingDistanceRingsOpacity4 = settings.DefineSetting("DistanceRingOpacity4", 1f, "4. Opacity", "Transparency of distance ring.");
             _settingDistanceRingsOpacity4.SetRange(0f, 1f);
 
             _settingDistanceRingsEnable5 = settings.DefineSetting("DistanceRingsEnable5", false, "5. Enabled", "");
             _settingDistanceRingsRadius5 = settings.DefineSetting("DistanceRingsRadius5", "1200", "5. Radius", "Radius of the distance ring.");
-            _settingDistanceRingsColor5 = settings.DefineSetting("DistanceRingsColor5", Colors.White, "5. Color", "Color of distance ring.");
+            _settingDistanceRingsColor5 = settings.DefineSetting("DistanceRingsColor5a", "White0", "5. Color", "Color of distance ring.");
             _settingDistanceRingsOpacity5 = settings.DefineSetting("DistanceRingOpacity5", 1f, "5. Opacity", "Transparency of distance ring.");
             _settingDistanceRingsOpacity5.SetRange(0f, 1f);
 
-            _settingDistanceRingsVerticalOffset = settings.DefineSetting("DistanceRingVerticalOffset", 1f, "Vertical Offset", "How high to offset the distance rings off the ground.");
+            _settingDistanceRingsVerticalOffset = settings.DefineSetting("DistanceRingVerticalOffseta", 0f, "Vertical Offset", "How high to offset the distance rings off the ground.");
             //_settingDistanceRingsVerticalOffset.SetRange(-1f, 5f);  //Would prefer to have begining value below 0, but causes mouse drag to be off in settings panel
-            _settingDistanceRingsVerticalOffset.SetRange(0f, 6f);  
+            //_settingDistanceRingsVerticalOffset.SetRange(0f, 6f);  
 
             _settingDistanceRingsEnable1.SettingChanged += UpdateSettings_Enabled;
             _settingDistanceRingsEnable2.SettingChanged += UpdateSettings_Enabled;
@@ -131,6 +136,10 @@ namespace Manlaan.DistanceRings
             _settingDistanceRingsOpacity5.SettingChanged += UpdateSettings_Opacity;
             _settingDistanceRingsVerticalOffset.SettingChanged += UpdateSettings_VerticalOffset;
         }
+        public override IView GetSettingsView() {
+            return new DistanceRings.Views.SettingsView();
+            //return new SettingsView( (this.ModuleParameters.SettingsManager.ModuleSettings);
+        }
 
         private float DistToPx(float f)
         {
@@ -138,6 +147,11 @@ namespace Manlaan.DistanceRings
         }
         protected override void Initialize()
         {
+            _colors = new List<Gw2Sharp.WebApi.V2.Models.Color>();
+            foreach (KeyValuePair<string, int[]> color in MyColors.Colors) {
+                _colors.Add(new Gw2Sharp.WebApi.V2.Models.Color() { Name = color.Key, Cloth = new Gw2Sharp.WebApi.V2.Models.ColorMaterial() { Rgb = color.Value } });
+            }
+
             _texturethin = ContentsManager.GetTexture("circlethin.png");
             _texturethick = ContentsManager.GetTexture("circlethick.png");
 
@@ -179,12 +193,11 @@ namespace Manlaan.DistanceRings
 
         private void UpdateSettings_VerticalOffset(object sender = null, ValueChangedEventArgs<float> e = null)
         {
-            //allow ring to go below character.
-            _ring1.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
-            _ring2.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
-            _ring3.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
-            _ring4.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
-            _ring5.VerticalOffset = _settingDistanceRingsVerticalOffset.Value - 1f;
+            _ring1.VerticalOffset = _settingDistanceRingsVerticalOffset.Value;
+            _ring2.VerticalOffset = _settingDistanceRingsVerticalOffset.Value;
+            _ring3.VerticalOffset = _settingDistanceRingsVerticalOffset.Value;
+            _ring4.VerticalOffset = _settingDistanceRingsVerticalOffset.Value;
+            _ring5.VerticalOffset = _settingDistanceRingsVerticalOffset.Value;
         }
 
         private void UpdateSettings_Radius(object sender = null, ValueChangedEventArgs<string> e = null)
@@ -212,13 +225,13 @@ namespace Manlaan.DistanceRings
             _ring4.UpdateRings();
             _ring5.UpdateRings();
         }
-        private void UpdateSettings_Color(object sender = null, ValueChangedEventArgs<Colors> e = null)
+        private void UpdateSettings_Color(object sender = null, ValueChangedEventArgs<string> e = null)
         {
-            _ring1.RingColor = getColor(_settingDistanceRingsColor1.Value);
-            _ring2.RingColor = getColor(_settingDistanceRingsColor2.Value);
-            _ring3.RingColor = getColor(_settingDistanceRingsColor3.Value);
-            _ring4.RingColor = getColor(_settingDistanceRingsColor4.Value);
-            _ring5.RingColor = getColor(_settingDistanceRingsColor5.Value);
+            _ring1.RingColor = ToRGB(_colors.Find(x => x.Name.Equals(_settingDistanceRingsColor1.Value))); 
+            _ring2.RingColor = ToRGB(_colors.Find(x => x.Name.Equals(_settingDistanceRingsColor2.Value)));
+            _ring3.RingColor = ToRGB(_colors.Find(x => x.Name.Equals(_settingDistanceRingsColor3.Value)));
+            _ring4.RingColor = ToRGB(_colors.Find(x => x.Name.Equals(_settingDistanceRingsColor4.Value)));
+            _ring5.RingColor = ToRGB(_colors.Find(x => x.Name.Equals(_settingDistanceRingsColor5.Value)));
 
             _ring1.UpdateRings();
             _ring2.UpdateRings();
@@ -280,28 +293,11 @@ namespace Manlaan.DistanceRings
             GameService.Graphics.World.RemoveEntity(_ring5);
         }
 
-        private Color getColor(Colors color)
-        {
-            switch (color)
-            {
-                default:
-                case Colors.White:
-                    return Color.White;
-                case Colors.Black:
-                    return Color.Black;
-                case Colors.Red:
-                    return Color.Red;
-                case Colors.Green:
-                    return Color.Green;
-                case Colors.Blue:
-                    return Color.Blue;
-                case Colors.Magenta:
-                    return Color.Magenta;
-                case Colors.Cyan:
-                    return Color.Cyan;
-                case Colors.Yellow:
-                    return Color.Yellow;
-            }
+        private Color ToRGB(Gw2Sharp.WebApi.V2.Models.Color color) {
+            if (color == null)
+                return new Color(255, 255, 255);
+            else
+                return new Color(color.Cloth.Rgb[0], color.Cloth.Rgb[1], color.Cloth.Rgb[2]);
         }
 
     }
