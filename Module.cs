@@ -18,6 +18,7 @@ namespace Manlaan.DistanceRings
     {
 
         private static readonly Logger Logger = Logger.GetLogger<Module>();
+        internal static DistanceRingsModule ModuleInstance;
 
         #region Service Managers
         internal SettingsManager SettingsManager => this.ModuleParameters.SettingsManager;
@@ -76,7 +77,7 @@ namespace Manlaan.DistanceRings
 
 
         [ImportingConstructor]
-        public DistanceRingsModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters) { }
+        public DistanceRingsModule([Import("ModuleParameters")] ModuleParameters moduleParameters) : base(moduleParameters) { ModuleInstance = this; }
 
         protected override void DefineSettings(SettingCollection settings)
         {
@@ -291,6 +292,8 @@ namespace Manlaan.DistanceRings
             GameService.Graphics.World.RemoveEntity(_ring3);
             GameService.Graphics.World.RemoveEntity(_ring4);
             GameService.Graphics.World.RemoveEntity(_ring5);
+
+            ModuleInstance = null;
         }
 
         private Color ToRGB(Gw2Sharp.WebApi.V2.Models.Color color) {

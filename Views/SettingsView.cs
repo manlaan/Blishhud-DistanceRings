@@ -1,14 +1,15 @@
 ﻿using Blish_HUD.Controls;
 using Microsoft.Xna.Framework;
-using Blish_HUD.Settings.UI.Views;
 using Blish_HUD.Graphics.UI;
 using Blish_HUD.Input;
 using Blish_HUD.Settings;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Manlaan.DistanceRings.Views
 {
     public class SettingsView : View
     {
+        Panel colorPickerPanel;
         ColorPicker colorPicker;
         ColorBox settingDistanceRingsColor1_Box, settingDistanceRingsColor2_Box, settingDistanceRingsColor3_Box, settingDistanceRingsColor4_Box, settingDistanceRingsColor5_Box;
         SettingEntry<string> colorBoxSelected = new SettingEntry<string>();
@@ -22,17 +23,33 @@ namespace Manlaan.DistanceRings.Views
                 Width = 700,  //bug? with buildPanel.Width changing to 40 after loading a different module settings and coming back.,
             };
             parentPanel.LeftMouseButtonPressed += delegate {
-                if (colorPicker.Visible && !colorPicker.MouseOver && !settingDistanceRingsColor1_Box.MouseOver)
-                    colorPicker.Visible = false;
+                if (colorPickerPanel.Visible && !colorPickerPanel.MouseOver && !settingDistanceRingsColor1_Box.MouseOver)
+                    colorPickerPanel.Visible = false;
             };
 
-            colorPicker = new ColorPicker() {
-                Location = new Point(parentPanel.Width - 465 - 10, 10),
-                CanScroll = true,
-                Size = new Point(465, 255),
+            colorPickerPanel = new Panel() {
+                Location = new Point(parentPanel.Width - 420 - 10, 10),
+                Size = new Point(420, 255),
                 Visible = false,
                 ZIndex = 10,
                 Parent = parentPanel,
+                BackgroundTexture = DistanceRingsModule.ModuleInstance.ContentsManager.GetTexture("155976.png"),
+                ShowBorder = false,
+            };
+            Panel colorPickerBG = new Panel() {
+                Location = new Point(15, 15),
+                Size = new Point(colorPickerPanel.Size.X - 35, colorPickerPanel.Size.Y - 30),
+                Parent = colorPickerPanel,
+                ShowTint = true,
+                ShowBorder = true,
+            };
+            colorPicker = new ColorPicker() {
+                Location = new Point(10, 10),
+                CanScroll = false,
+                Size = new Point(colorPickerBG.Size.X - 20, colorPickerBG.Size.Y - 20),
+                Parent = colorPickerBG,
+                ShowTint = false,
+                Visible = true
             };
             colorPicker.SelectedColorChanged += delegate {
                 colorPicker.AssociatedColorBox.Color = colorPicker.SelectedColor;
@@ -41,10 +58,10 @@ namespace Manlaan.DistanceRings.Views
                 } catch {
                     colorBoxSelected.Value = "White0";
                 }
-                colorPicker.Visible = false;
+                colorPickerPanel.Visible = false;
             };
             colorPicker.LeftMouseButtonPressed += delegate {
-                colorPicker.Visible = false;
+                colorPickerPanel.Visible = false;
             };
             foreach (var color in DistanceRingsModule._colors) {
                 colorPicker.Colors.Add(color);
@@ -89,7 +106,7 @@ namespace Manlaan.DistanceRings.Views
             settingDistanceRingsColor1_Box.Click += delegate (object sender, MouseEventArgs e) {
                 SetColorSetting(ref DistanceRingsModule._settingDistanceRingsColor1);
                 colorPicker.AssociatedColorBox = (ColorBox)sender;
-                colorPicker.Visible = !colorPicker.Visible;
+                colorPickerPanel.Visible = !colorPickerPanel.Visible;
             };
 
             Label settingDistanceRingsOpacity1_Label = new Label() {
@@ -150,7 +167,7 @@ namespace Manlaan.DistanceRings.Views
             settingDistanceRingsColor2_Box.Click += delegate (object sender, MouseEventArgs e) {
                 SetColorSetting(ref DistanceRingsModule._settingDistanceRingsColor2);
                 colorPicker.AssociatedColorBox = (ColorBox)sender;
-                colorPicker.Visible = !colorPicker.Visible;
+                colorPickerPanel.Visible = !colorPickerPanel.Visible;
             };
 
             Label settingDistanceRingsOpacity2_Label = new Label() {
@@ -211,7 +228,7 @@ namespace Manlaan.DistanceRings.Views
             settingDistanceRingsColor3_Box.Click += delegate (object sender, MouseEventArgs e) {
                 SetColorSetting(ref DistanceRingsModule._settingDistanceRingsColor3);
                 colorPicker.AssociatedColorBox = (ColorBox)sender;
-                colorPicker.Visible = !colorPicker.Visible;
+                colorPickerPanel.Visible = !colorPickerPanel.Visible;
             };
 
             Label settingDistanceRingsOpacity3_Label = new Label() {
@@ -272,7 +289,7 @@ namespace Manlaan.DistanceRings.Views
             settingDistanceRingsColor4_Box.Click += delegate (object sender, MouseEventArgs e) {
                 SetColorSetting(ref DistanceRingsModule._settingDistanceRingsColor4);
                 colorPicker.AssociatedColorBox = (ColorBox)sender;
-                colorPicker.Visible = !colorPicker.Visible;
+                colorPickerPanel.Visible = !colorPickerPanel.Visible;
             };
 
             Label settingDistanceRingsOpacity4_Label = new Label() {
@@ -333,7 +350,7 @@ namespace Manlaan.DistanceRings.Views
             settingDistanceRingsColor5_Box.Click += delegate (object sender, MouseEventArgs e) {
                 SetColorSetting(ref DistanceRingsModule._settingDistanceRingsColor5);
                 colorPicker.AssociatedColorBox = (ColorBox)sender;
-                colorPicker.Visible = !colorPicker.Visible;
+                colorPickerPanel.Visible = !colorPickerPanel.Visible;
             };
 
             Label settingDistanceRingsOpacity5_Label = new Label() {
