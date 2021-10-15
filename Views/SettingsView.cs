@@ -40,7 +40,7 @@ namespace Manlaan.DistanceRings.Views
                 Location = new Point(15, 15),
                 Size = new Point(colorPickerPanel.Size.X - 35, colorPickerPanel.Size.Y - 30),
                 Parent = colorPickerPanel,
-                ShowTint = true,
+                BackgroundTexture = DistanceRingsModule.ModuleInstance.ContentsManager.GetTexture("buttondark.png"),
                 ShowBorder = true,
             };
             colorPicker = new ColorPicker() {
